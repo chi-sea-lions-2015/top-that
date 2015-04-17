@@ -1,0 +1,6 @@
+<Alloy>
+	<Window class="container">
+		<Label id="label" onClick="presentCamera">With Love From the Underground</Label>
+	</Window>
+</Alloy>
+
