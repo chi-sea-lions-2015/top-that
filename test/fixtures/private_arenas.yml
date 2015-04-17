@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  challenger_video_id: 
+  challengee_video_id: 
+  state: 
+
+two:
+  challenger_video_id: 
+  challengee_video_id: 
+  state: 
