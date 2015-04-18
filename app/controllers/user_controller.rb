@@ -12,7 +12,6 @@ class UserController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       log_in @user
-      flash[:success] = "Welcome!"
       redirect_to @user
     else
       @error = "wooopsies" #Find out if view needs to be rendered client side
@@ -41,7 +40,7 @@ class UserController < ApplicationController
   private
 
   def user_params
-  params.require(:user).permit(:username, :email, :password, :avatar)
+    params.require(:user).permit(:username, :email, :password, :avatar)
   end
 
 end
