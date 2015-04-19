@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe ArenaAttendanceController, type: :controller do
+# RSpec.describe ArenaAttendanceController, type: :controller do
 
-end
+# end
