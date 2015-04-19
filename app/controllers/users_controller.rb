@@ -1,7 +1,8 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
 
   def index
     @user = User.all
+    render :json => @user
   end
 
   def new
@@ -12,8 +13,7 @@ class UserController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       log_in @user
-      flash[:success] = "Welcome!"
-      redirect_to @user
+      render :json => @user
     else
       @error = "wooopsies" #Find out if view needs to be rendered client side
     end
@@ -27,7 +27,7 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
     @user.update_attributes(user_params)
     if @user.save
-      redirect_to @user
+      render :json => @user
     else
     @error = "you just got topped by this app" #Find out if view needs to be rendered client side
     end
@@ -41,7 +41,7 @@ class UserController < ApplicationController
   private
 
   def user_params
-  params.require(:user).permit(:username, :email, :password, :avatar)
+    params.require(:user).permit(:username, :email, :password, :avatar)
   end
 
 end

@@ -8,7 +8,16 @@ Rails.application.routes.draw do
 
 
 
-    resources :users
+    resources :users do
+      resources :videos, only: [:create, :new, :edit, :update, :destroy]
+      end
+
+
+    resources :videos do
+      resources :public_arenas, only: [:new, :create, :show, :update]
+      resources :private_arenas, only: [:new, :create, :show, :update]
+  end
+
 
   root 'welcome#index'
   # The priority is based upon order of creation: first created -> highest priority.
