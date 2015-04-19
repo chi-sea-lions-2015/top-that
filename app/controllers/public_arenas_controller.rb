@@ -27,10 +27,10 @@ class PublicArenasController < ApplicationController
   #   @public_arena.destroy!
   # end
 
-  private
+private
 
- def  public_arena_params
-  params.require(:public_arena).permit(:challenger_video, :challengee_video, :status)
- end
+   def public_arena_params
+    params.require(:public_arena).permit(:challenger_video, :challengee_video, :status)
+   end
 
 end

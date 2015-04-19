@@ -23,21 +23,22 @@ class VideosController < ApplicationController
     else
       @error = "you just got topped by this app" #Find out if view needs to be rendered client side
     end
+  end
 
 
-    def destroy
-      @user = current_user
-      @video = params[:id]
-      @video.destroy!
-      render :json => @user
+  def destroy
+    @user = current_user
+    @video = params[:id]
+    @video.destroy!
+    render :json => @user
+  end
+
+
+  private
+
+    def video_params
+      params.require(:user).permit(:title, :winner?, :data_content)
     end
-  end
-
-   private
-
-  def video_params
-    params.require(:user).permit(:title, :winner?, :data_content)
-  end
 
 
 end
