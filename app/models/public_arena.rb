@@ -6,7 +6,7 @@ class PublicArena < ActiveRecord::Base
 
   def self.all_challenger_videos
     vidz = []
-    Video.all.each { |vid| vidz << vid if  vid.public_arenas_as_a_challenger != nil }
+    Video.all.each { |vid| vidz << vid if  vid.public_arena_as_challenger != nil }
     vidz
   end
 end

@@ -14,8 +14,10 @@ Rails.application.routes.draw do
 
 
     resources :videos do
-    resources :public_arenas, only: [:new, :create, :show, :update]
+      resources :public_arenas, only: [:new, :create, :show, :update]
+      resources :private_arenas, only: [:new, :create, :show, :update]
   end
+
 
   root 'welcome#index'
   # The priority is based upon order of creation: first created -> highest priority.

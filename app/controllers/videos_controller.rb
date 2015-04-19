@@ -1,4 +1,4 @@
-class VideoController < ApplicationController
+class VideosController < ApplicationController
 
   def new
     Video.new
@@ -6,10 +6,12 @@ class VideoController < ApplicationController
 
   def create
     @video = Video.create(video_params)
+    render :json => @video
   end
 
   def edit
     @video = Video.find(params[:id])
+    render :json => @video
   end
 
   def update
@@ -17,14 +19,17 @@ class VideoController < ApplicationController
     @video = User.find(params[:id])
     @video.update_attributes(video_params)
     if @video.save
-      redirect_to @user
+      render :json => @video
     else
       @error = "you just got topped by this app" #Find out if view needs to be rendered client side
     end
 
 
     def destroy
+      @user = current_user
       @video = params[:id]
+      @video.destroy!
+      render :json => @user
     end
   end
 
