@@ -1,2 +1,14 @@
 <% provide(:title, @user.username)%>
 <h1><%= @user.username %></h1>
+
+<%= form_for @user, html: { multipart: true } do |f| %>
+  <p>
+    <label>My Avatar</label>
+    <%= image_tag(@user.avatar_url) if @user.avatar? %>
+    <%= f.file_field :avatar %>
+      <%= f.hidden_field :avatar_cache %>
+  </p>
+   <%= f.submit%>
+  <p>
+   </p>
+<% end %>
