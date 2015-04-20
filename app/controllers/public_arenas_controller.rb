@@ -10,7 +10,6 @@ class PublicArenasController < ApplicationController
 
   def create
     @public_arena = PublicArena.create(public_arena_params)
-    render :json => @public_arena
   end
 
 
