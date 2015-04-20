@@ -1,4 +1,7 @@
 class Video < ActiveRecord::Base
+ # may watnt to add an attribute accessible field here
+
+  mount_uploader :data_content, VideoUploader
   belongs_to :user
   has_many :votes
   has_one :private_arena_as_challenger, class_name: "PrivateArena", foreign_key: :challenger_video_id

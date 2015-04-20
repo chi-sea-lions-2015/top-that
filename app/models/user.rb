@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_secure_password
-
+  mount_uploader :avatar, AvatarUploader
   has_many :votes, foreign_key: :voter_id
   has_many :videos
   has_many :arena_attendances, foreign_key: :attendee_id

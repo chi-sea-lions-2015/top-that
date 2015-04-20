@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150417040005) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20150420175850) do
 
   create_table "arena_attendances", force: :cascade do |t|
     t.integer  "private_arena_id"
@@ -49,10 +46,10 @@ ActiveRecord::Schema.define(version: 20150417040005) do
   create_table "users", force: :cascade do |t|
     t.string   "username"
     t.string   "email"
-    t.string   "avatar"
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "avatar"
   end
 
   create_table "videos", force: :cascade do |t|
@@ -64,7 +61,7 @@ ActiveRecord::Schema.define(version: 20150417040005) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "videos", ["user_id"], name: "index_videos_on_user_id", using: :btree
+  add_index "videos", ["user_id"], name: "index_videos_on_user_id"
 
   create_table "votes", force: :cascade do |t|
     t.integer  "voter_id"
@@ -73,5 +70,4 @@ ActiveRecord::Schema.define(version: 20150417040005) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "videos", "users"
 end
