@@ -1,1 +1,12 @@
-<h1>test</h1>
+<h1>top that</h1>
+
+
+<ul>
+  <% @challenger_videos.each do |video| %>
+  <li><%= video.title %></li>
+</ul>
+<%end%>
+
+<%= link_to 'challenge the world', new_user_video_path([@user, @video]) %>
+
+
