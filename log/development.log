@@ -27198,3 +27198,890 @@ WHERE c.contype = 'f'
   AND t3.nspname = ANY (current_schemas(false))
 ORDER BY c.conname
 [0m
+  [1m[36m (1.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (1.0ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateUsers (20150417034257)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "email" varchar, "avatar" varchar, "password_digest" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150417034257"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+Migrating to CreateVotes (20150417034731)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "votes" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "voter_id" integer, "video_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150417034731"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+Migrating to CreateVideos (20150417034851)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "videos" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "title" varchar, "winner" boolean, "data_content" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_videos_on_user_id" ON "videos" ("user_id")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150417034851"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+Migrating to CreateUserConnections (20150417035131)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "user_connections" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "inviter_id" integer, "invitee_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150417035131"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+Migrating to CreateArenaAttendances (20150417035226)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "arena_attendances" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "private_arena_id" integer, "attendee_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150417035226"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Migrating to CreatePrivateArenas (20150417035530)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "private_arenas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "challenger_video_id" integer, "challengee_video_id" integer, "status" integer DEFAULT 0, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150417035530"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Migrating to CreatePublicArenas (20150417040005)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "public_arenas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "challenger_video_id" integer, "challengee_video_id" integer, "status" integer DEFAULT 0, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150417040005"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_videos_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_videos_on_user_id' AND type='index'
+[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'violette.herzog' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'antonina.mraz@kiehn.org' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "violette.herzog"], ["email", "antonina.mraz@kiehn.org"], ["password_digest", "$2a$10$djqjIPVfdzOh.Kpv7tfnYuzTElGBgKJwnjCKDFpBWiLznMhhVnGja"], ["created_at", "2015-04-20 16:40:52.404045"], ["updated_at", "2015-04-20 16:40:52.404045"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'kathryn' LIMIT 1
+  [1m[36mUser Exists (0.0ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'johnnie_ward@boehm.name' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "kathryn"], ["email", "johnnie_ward@boehm.name"], ["password_digest", "$2a$10$OQdh9SaJ1qDQN7vW0aruAOLf2EloeaiIs.kHoq/f4J.N0VNL9UULa"], ["created_at", "2015-04-20 16:40:52.486124"], ["updated_at", "2015-04-20 16:40:52.486124"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'selena_murphy' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'madison_gorczany@macejkovic.net' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "selena_murphy"], ["email", "madison_gorczany@macejkovic.net"], ["password_digest", "$2a$10$R2peqler7N.Ya4wALYLZVuC161uvA2in4Kfpcl2VRvR6AVvaj.J2m"], ["created_at", "2015-04-20 16:40:52.566659"], ["updated_at", "2015-04-20 16:40:52.566659"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'antone' LIMIT 1
+  [1m[36mUser Exists (0.0ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'leonor@mertzkuhlman.name' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "antone"], ["email", "leonor@mertzkuhlman.name"], ["password_digest", "$2a$10$H.pqe4SE3B5mCVEzKzF1M.CL.jkxcgX5D1hmJIH9FUMuvkg.LhonW"], ["created_at", "2015-04-20 16:40:52.643071"], ["updated_at", "2015-04-20 16:40:52.643071"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'cordell' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'dallin_boyle@pfeffer.info' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "cordell"], ["email", "dallin_boyle@pfeffer.info"], ["password_digest", "$2a$10$.sSWYJrYNjOtOudszpDw4OY8PrWRY8KcwkuDS/hEPHBHXdkslMMhu"], ["created_at", "2015-04-20 16:40:52.715584"], ["updated_at", "2015-04-20 16:40:52.715584"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'aryanna' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'lavina.schuster@kautzer.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "aryanna"], ["email", "lavina.schuster@kautzer.com"], ["password_digest", "$2a$10$j3SRFehOA8eAPBkgL9Foce.sl3uDWXBKMBGiVI09UIvNpKTY.XE42"], ["created_at", "2015-04-20 16:40:52.787631"], ["updated_at", "2015-04-20 16:40:52.787631"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'merle' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'arvid_williamson@herman.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "merle"], ["email", "arvid_williamson@herman.com"], ["password_digest", "$2a$10$aRguZmMzAvL0TuaZUaJSQeVGw9AvQCfN60MoCYiPjktyEUZKysvvi"], ["created_at", "2015-04-20 16:40:52.871892"], ["updated_at", "2015-04-20 16:40:52.871892"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'ernie' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'angelica.christiansen@moriette.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "ernie"], ["email", "angelica.christiansen@moriette.com"], ["password_digest", "$2a$10$.RpBkIlwekkkO6llDWSG4.8jxG.TvDQAAmL.OaskV/.5JYqK4.Q2G"], ["created_at", "2015-04-20 16:40:52.955685"], ["updated_at", "2015-04-20 16:40:52.955685"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'zora' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'dimitri@ziemereilly.org' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "zora"], ["email", "dimitri@ziemereilly.org"], ["password_digest", "$2a$10$djZYiHn3jv104PcCu8S2/OAK.TFAlzlFOhn9Sr.CgdVZdNghDS5ze"], ["created_at", "2015-04-20 16:40:53.030649"], ["updated_at", "2015-04-20 16:40:53.030649"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'emie' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'rickey@damoreprice.biz' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "emie"], ["email", "rickey@damoreprice.biz"], ["password_digest", "$2a$10$ra4Lv2WSZahHFLnmnchtHOJ0DaoZTnwiTYFIlk6IfnncOIs0BTnKy"], ["created_at", "2015-04-20 16:40:53.106940"], ["updated_at", "2015-04-20 16:40:53.106940"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'shany_champlin' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'eleonore@ullrich.info' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "shany_champlin"], ["email", "eleonore@ullrich.info"], ["password_digest", "$2a$10$.WUePvggYcarQAqAkfx0j.Qn2t5ZblWpoHuv4AQsD4r.Yzm/JZhO2"], ["created_at", "2015-04-20 16:40:53.180542"], ["updated_at", "2015-04-20 16:40:53.180542"]]
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'cordie' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'greg_greenfelder@lueilwitzhalvorson.net' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "cordie"], ["email", "greg_greenfelder@lueilwitzhalvorson.net"], ["password_digest", "$2a$10$WRrPuJiMOQeUMYtSuyaBiuq1FDo0ZEGgjH5.ow18Bed.4DXD.tBJ6"], ["created_at", "2015-04-20 16:40:53.258665"], ["updated_at", "2015-04-20 16:40:53.258665"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'domingo' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'marley_walker@metz.name' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "domingo"], ["email", "marley_walker@metz.name"], ["password_digest", "$2a$10$sQTenHZWAqZe3/I66HM5XuZwrYqZ58orrJdmxOjOeb8bxqZW.MeR2"], ["created_at", "2015-04-20 16:40:53.334364"], ["updated_at", "2015-04-20 16:40:53.334364"]]
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'dane.eichmann' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'clyde.grady@cremin.info' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "dane.eichmann"], ["email", "clyde.grady@cremin.info"], ["password_digest", "$2a$10$GVUIWcH6yvDLf9iXq3tVTubwJTqSn9VMRWbYuvgbB7kRQzbZmDIpW"], ["created_at", "2015-04-20 16:40:53.412084"], ["updated_at", "2015-04-20 16:40:53.412084"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'sid' LIMIT 1[0m
+  [1m[35mUser Exists (0.0ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'deshaun.hackett@watersberge.org' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "sid"], ["email", "deshaun.hackett@watersberge.org"], ["password_digest", "$2a$10$T05iDXzeD0NMxqYMze53Ue560a7VhucVci5k2VNExwDq1OiRI3dEC"], ["created_at", "2015-04-20 16:40:53.485305"], ["updated_at", "2015-04-20 16:40:53.485305"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'seth_kuhlman' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'hollie@pollich.info' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "seth_kuhlman"], ["email", "hollie@pollich.info"], ["password_digest", "$2a$10$BJO5GTZ9ipzJ9r6ZQQx3yeIlPwCXj3FBsRHPslLsxQC7sK9HVAOOy"], ["created_at", "2015-04-20 16:40:53.562736"], ["updated_at", "2015-04-20 16:40:53.562736"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'derrick.effertz' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'antonio.blick@keebler.biz' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "derrick.effertz"], ["email", "antonio.blick@keebler.biz"], ["password_digest", "$2a$10$9Ove.sziJNA5AMd.cvA8F.K6w4DOhUwy85v.enZBOZy/U4egCNjFS"], ["created_at", "2015-04-20 16:40:53.638943"], ["updated_at", "2015-04-20 16:40:53.638943"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'raven_kovacek' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'glenda@williamson.org' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "raven_kovacek"], ["email", "glenda@williamson.org"], ["password_digest", "$2a$10$aHxqDzo3MGO8pHGDgvF4Ve3kMAWauqp1p.36tircXCFK71t7LAOAG"], ["created_at", "2015-04-20 16:40:53.711772"], ["updated_at", "2015-04-20 16:40:53.711772"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."username" = 'michelle.rempel' LIMIT 1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'carroll@jast.biz' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["username", "michelle.rempel"], ["email", "carroll@jast.biz"], ["password_digest", "$2a$10$byEvAfWuIPxTSSLsQu94f.iPtwuKrQVAaVaK.cGsoI/5RHykALv7K"], ["created_at", "2015-04-20 16:40:53.790898"], ["updated_at", "2015-04-20 16:40:53.790898"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."username" = 'deven.purdy' LIMIT 1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'tyra.muller@kelerjacobi.info' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("username", "email", "password_digest", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["username", "deven.purdy"], ["email", "tyra.muller@kelerjacobi.info"], ["password_digest", "$2a$10$.4hxRIRG/gosZMW0AgOqTeDB8VW7pabkChq8EBxof.ncsAnMY82ya"], ["created_at", "2015-04-20 16:40:53.866888"], ["updated_at", "2015-04-20 16:40:53.866888"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Lead Division Specialist"], ["winner", "f"], ["data_content", "http://effertzblanda.info/general"], ["user_id", 1], ["created_at", "2015-04-20 16:40:53.936979"], ["updated_at", "2015-04-20 16:40:53.936979"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Internal Operations Agent"], ["winner", "f"], ["data_content", "http://paucek.net/michael"], ["user_id", 2], ["created_at", "2015-04-20 16:40:53.940924"], ["updated_at", "2015-04-20 16:40:53.940924"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Human Operations Analyst"], ["winner", "f"], ["data_content", "http://lueilwitzdooley.com/river.schultz"], ["user_id", 3], ["created_at", "2015-04-20 16:40:53.943675"], ["updated_at", "2015-04-20 16:40:53.943675"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Lead Interactions Designer"], ["winner", "f"], ["data_content", "http://bechtelarjakubowski.com/winifred"], ["user_id", 4], ["created_at", "2015-04-20 16:40:53.946448"], ["updated_at", "2015-04-20 16:40:53.946448"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Legacy Branding Agent"], ["winner", "t"], ["data_content", "http://pfeffer.name/garrett.gorczany"], ["user_id", 5], ["created_at", "2015-04-20 16:40:53.949092"], ["updated_at", "2015-04-20 16:40:53.949092"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Product Directives Facilitator"], ["winner", "t"], ["data_content", "http://armstrongmaggio.name/audreanne.erdman"], ["user_id", 6], ["created_at", "2015-04-20 16:40:53.952238"], ["updated_at", "2015-04-20 16:40:53.952238"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Customer Accountability Engineer"], ["winner", "t"], ["data_content", "http://moen.biz/alycia"], ["user_id", 7], ["created_at", "2015-04-20 16:40:53.954985"], ["updated_at", "2015-04-20 16:40:53.954985"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "District Marketing Manager"], ["winner", "f"], ["data_content", "http://macejkovic.net/linnie"], ["user_id", 8], ["created_at", "2015-04-20 16:40:53.957608"], ["updated_at", "2015-04-20 16:40:53.957608"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Dynamic Applications Associate"], ["winner", "t"], ["data_content", "http://haley.info/garfield.okon"], ["user_id", 9], ["created_at", "2015-04-20 16:40:53.960291"], ["updated_at", "2015-04-20 16:40:53.960291"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Customer Data Designer"], ["winner", "f"], ["data_content", "http://vandervortbraun.org/mac"], ["user_id", 10], ["created_at", "2015-04-20 16:40:53.963304"], ["updated_at", "2015-04-20 16:40:53.963304"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Global Research Strategist"], ["winner", "f"], ["data_content", "http://leannon.name/rowland"], ["user_id", 11], ["created_at", "2015-04-20 16:40:53.965960"], ["updated_at", "2015-04-20 16:40:53.965960"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Dynamic Solutions Facilitator"], ["winner", "t"], ["data_content", "http://jacobson.org/eveline"], ["user_id", 12], ["created_at", "2015-04-20 16:40:53.968472"], ["updated_at", "2015-04-20 16:40:53.968472"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Future Functionality Analyst"], ["winner", "f"], ["data_content", "http://bradtke.com/sylvester_mertz"], ["user_id", 13], ["created_at", "2015-04-20 16:40:53.970953"], ["updated_at", "2015-04-20 16:40:53.970953"]]
+  [1m[36m (0.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Senior Program Facilitator"], ["winner", "t"], ["data_content", "http://walter.name/theo_west"], ["user_id", 14], ["created_at", "2015-04-20 16:40:53.973431"], ["updated_at", "2015-04-20 16:40:53.973431"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Senior Group Analyst"], ["winner", "t"], ["data_content", "http://boyer.name/rhoda.yundt"], ["user_id", 15], ["created_at", "2015-04-20 16:40:53.976084"], ["updated_at", "2015-04-20 16:40:53.976084"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Legacy Usability Administrator"], ["winner", "f"], ["data_content", "http://roobgreenfelder.com/candace.hahn"], ["user_id", 16], ["created_at", "2015-04-20 16:40:53.978624"], ["updated_at", "2015-04-20 16:40:53.978624"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Product Program Specialist"], ["winner", "f"], ["data_content", "http://kiehn.biz/erling_wyman"], ["user_id", 17], ["created_at", "2015-04-20 16:40:53.981124"], ["updated_at", "2015-04-20 16:40:53.981124"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Investor Directives Manager"], ["winner", "t"], ["data_content", "http://christiansen.com/emily_crooks"], ["user_id", 18], ["created_at", "2015-04-20 16:40:53.983701"], ["updated_at", "2015-04-20 16:40:53.983701"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Forward Program Manager"], ["winner", "f"], ["data_content", "http://doyle.biz/odea_ondricka"], ["user_id", 19], ["created_at", "2015-04-20 16:40:53.986643"], ["updated_at", "2015-04-20 16:40:53.986643"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Senior Branding Technician"], ["winner", "t"], ["data_content", "http://thompson.org/jaeden_swaniawski"], ["user_id", 20], ["created_at", "2015-04-20 16:40:53.989227"], ["updated_at", "2015-04-20 16:40:53.989227"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Product Operations Architect"], ["winner", "t"], ["data_content", "http://marquardt.org/nicholaus"], ["user_id", 1], ["created_at", "2015-04-20 16:40:53.992512"], ["updated_at", "2015-04-20 16:40:53.992512"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Dynamic Program Analyst"], ["winner", "f"], ["data_content", "http://kiehn.com/rickey_gislason"], ["user_id", 2], ["created_at", "2015-04-20 16:40:53.995090"], ["updated_at", "2015-04-20 16:40:53.995090"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Lead Metrics Agent"], ["winner", "f"], ["data_content", "http://rempel.org/erich"], ["user_id", 3], ["created_at", "2015-04-20 16:40:53.997825"], ["updated_at", "2015-04-20 16:40:53.997825"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Senior Integration Agent"], ["winner", "t"], ["data_content", "http://stammhauck.name/ewell"], ["user_id", 4], ["created_at", "2015-04-20 16:40:54.000673"], ["updated_at", "2015-04-20 16:40:54.000673"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Legacy Accountability Manager"], ["winner", "f"], ["data_content", "http://mayerberge.com/santos.cronin"], ["user_id", 5], ["created_at", "2015-04-20 16:40:54.003241"], ["updated_at", "2015-04-20 16:40:54.003241"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "International Response Specialist"], ["winner", "t"], ["data_content", "http://dooleysanford.org/agustin"], ["user_id", 6], ["created_at", "2015-04-20 16:40:54.005785"], ["updated_at", "2015-04-20 16:40:54.005785"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "District Intranet Technician"], ["winner", "t"], ["data_content", "http://dickinsonbreitenberg.org/pete_thiel"], ["user_id", 7], ["created_at", "2015-04-20 16:40:54.008588"], ["updated_at", "2015-04-20 16:40:54.008588"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Investor Infrastructure Technician"], ["winner", "f"], ["data_content", "http://bashirian.com/katrina"], ["user_id", 8], ["created_at", "2015-04-20 16:40:54.011229"], ["updated_at", "2015-04-20 16:40:54.011229"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Future Web Executive"], ["winner", "f"], ["data_content", "http://macejkovicborer.info/sabrina.kihn"], ["user_id", 9], ["created_at", "2015-04-20 16:40:54.013795"], ["updated_at", "2015-04-20 16:40:54.013795"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Dynamic Integration Liason"], ["winner", "f"], ["data_content", "http://bartell.name/granville.bosco"], ["user_id", 10], ["created_at", "2015-04-20 16:40:54.016396"], ["updated_at", "2015-04-20 16:40:54.016396"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "International Brand Supervisor"], ["winner", "f"], ["data_content", "http://monahankilback.info/dolores"], ["user_id", 11], ["created_at", "2015-04-20 16:40:54.019233"], ["updated_at", "2015-04-20 16:40:54.019233"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Regional Paradigm Engineer"], ["winner", "t"], ["data_content", "http://roberts.name/benny.willms"], ["user_id", 12], ["created_at", "2015-04-20 16:40:54.022070"], ["updated_at", "2015-04-20 16:40:54.022070"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Regional Factors Engineer"], ["winner", "f"], ["data_content", "http://rau.org/katelynn"], ["user_id", 13], ["created_at", "2015-04-20 16:40:54.024638"], ["updated_at", "2015-04-20 16:40:54.024638"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Dynamic Branding Executive"], ["winner", "t"], ["data_content", "http://becker.com/adolfo_volkman"], ["user_id", 14], ["created_at", "2015-04-20 16:40:54.027682"], ["updated_at", "2015-04-20 16:40:54.027682"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Senior Research Planner"], ["winner", "t"], ["data_content", "http://andersonondricka.biz/harry"], ["user_id", 15], ["created_at", "2015-04-20 16:40:54.030337"], ["updated_at", "2015-04-20 16:40:54.030337"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Future Data Associate"], ["winner", "f"], ["data_content", "http://faheyebert.net/caandra"], ["user_id", 16], ["created_at", "2015-04-20 16:40:54.033003"], ["updated_at", "2015-04-20 16:40:54.033003"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Central Infrastructure Assistant"], ["winner", "f"], ["data_content", "http://brownheidenreich.net/valentina"], ["user_id", 17], ["created_at", "2015-04-20 16:40:54.035544"], ["updated_at", "2015-04-20 16:40:54.035544"]]
+  [1m[35m (0.5ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Chief Creative Producer"], ["winner", "t"], ["data_content", "http://feest.info/maeve.kovacek"], ["user_id", 18], ["created_at", "2015-04-20 16:40:54.038095"], ["updated_at", "2015-04-20 16:40:54.038095"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Central Quality Coordinator"], ["winner", "t"], ["data_content", "http://waelchibrakus.org/lewis"], ["user_id", 19], ["created_at", "2015-04-20 16:40:54.040946"], ["updated_at", "2015-04-20 16:40:54.040946"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Legacy Integration Producer"], ["winner", "t"], ["data_content", "http://stark.com/clotilde"], ["user_id", 20], ["created_at", "2015-04-20 16:40:54.043673"], ["updated_at", "2015-04-20 16:40:54.043673"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Senior Interactions Agent"], ["winner", "t"], ["data_content", "http://cruickshank.biz/milan_jacobs"], ["user_id", 1], ["created_at", "2015-04-20 16:40:54.046855"], ["updated_at", "2015-04-20 16:40:54.046855"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Investor Paradigm Developer"], ["winner", "f"], ["data_content", "http://dooleyvolkman.com/lawson_little"], ["user_id", 2], ["created_at", "2015-04-20 16:40:54.049510"], ["updated_at", "2015-04-20 16:40:54.049510"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Principal Paradigm Developer"], ["winner", "f"], ["data_content", "http://bartell.info/antonette_schaefer"], ["user_id", 3], ["created_at", "2015-04-20 16:40:54.052484"], ["updated_at", "2015-04-20 16:40:54.052484"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Direct Mobility Liason"], ["winner", "t"], ["data_content", "http://binsharris.name/malachi.jenkins"], ["user_id", 4], ["created_at", "2015-04-20 16:40:54.055521"], ["updated_at", "2015-04-20 16:40:54.055521"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Regional Mobility Facilitator"], ["winner", "t"], ["data_content", "http://larsonstoltenberg.info/sim"], ["user_id", 5], ["created_at", "2015-04-20 16:40:54.058435"], ["updated_at", "2015-04-20 16:40:54.058435"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Product Factors Analyst"], ["winner", "t"], ["data_content", "http://flatleyhaley.net/collin"], ["user_id", 6], ["created_at", "2015-04-20 16:40:54.061921"], ["updated_at", "2015-04-20 16:40:54.061921"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "District Creative Engineer"], ["winner", "f"], ["data_content", "http://conroyprosacco.net/claudia"], ["user_id", 7], ["created_at", "2015-04-20 16:40:54.064825"], ["updated_at", "2015-04-20 16:40:54.064825"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Direct Infrastructure Supervisor"], ["winner", "f"], ["data_content", "http://krajcik.net/riley_borer"], ["user_id", 8], ["created_at", "2015-04-20 16:40:54.067598"], ["updated_at", "2015-04-20 16:40:54.067598"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Customer Implementation Engineer"], ["winner", "t"], ["data_content", "http://koch.name/madie.volkman"], ["user_id", 9], ["created_at", "2015-04-20 16:40:54.070413"], ["updated_at", "2015-04-20 16:40:54.070413"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Corporate Accountability Architect"], ["winner", "t"], ["data_content", "http://funk.com/mckayla"], ["user_id", 10], ["created_at", "2015-04-20 16:40:54.073495"], ["updated_at", "2015-04-20 16:40:54.073495"]]
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "National Configuration Engineer"], ["winner", "t"], ["data_content", "http://schinnerbradtke.name/tony.weinat"], ["user_id", 11], ["created_at", "2015-04-20 16:40:54.077363"], ["updated_at", "2015-04-20 16:40:54.077363"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Senior Factors Producer"], ["winner", "t"], ["data_content", "http://oberbrunner.org/stephan"], ["user_id", 12], ["created_at", "2015-04-20 16:40:54.080689"], ["updated_at", "2015-04-20 16:40:54.080689"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "National Directives Executive"], ["winner", "t"], ["data_content", "http://grant.org/dorris"], ["user_id", 13], ["created_at", "2015-04-20 16:40:54.083896"], ["updated_at", "2015-04-20 16:40:54.083896"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Product Integration Developer"], ["winner", "t"], ["data_content", "http://rippinokon.info/francis"], ["user_id", 14], ["created_at", "2015-04-20 16:40:54.086658"], ["updated_at", "2015-04-20 16:40:54.086658"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Future Configuration Director"], ["winner", "t"], ["data_content", "http://rippindibbert.biz/khalil_flatley"], ["user_id", 15], ["created_at", "2015-04-20 16:40:54.089283"], ["updated_at", "2015-04-20 16:40:54.089283"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Central Security Representative"], ["winner", "t"], ["data_content", "http://ziemeschmitt.info/aurore"], ["user_id", 16], ["created_at", "2015-04-20 16:40:54.091820"], ["updated_at", "2015-04-20 16:40:54.091820"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Global Identity Engineer"], ["winner", "t"], ["data_content", "http://heidenreich.biz/ahmed.medhurst"], ["user_id", 17], ["created_at", "2015-04-20 16:40:54.094393"], ["updated_at", "2015-04-20 16:40:54.094393"]]
+  [1m[36m (0.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Corporate Brand Coordinator"], ["winner", "t"], ["data_content", "http://wiegandhaley.org/nina.stiedemann"], ["user_id", 18], ["created_at", "2015-04-20 16:40:54.096859"], ["updated_at", "2015-04-20 16:40:54.096859"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Investor Integration Manager"], ["winner", "f"], ["data_content", "http://creminschuppe.biz/keon_parisian"], ["user_id", 19], ["created_at", "2015-04-20 16:40:54.099632"], ["updated_at", "2015-04-20 16:40:54.099632"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Dynamic Configuration Analyst"], ["winner", "t"], ["data_content", "http://runolfon.org/courtney.ebert"], ["user_id", 20], ["created_at", "2015-04-20 16:40:54.102616"], ["updated_at", "2015-04-20 16:40:54.102616"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Principal Marketing Officer"], ["winner", "t"], ["data_content", "http://zboncakdaniel.net/nolan_botsford"], ["user_id", 1], ["created_at", "2015-04-20 16:40:54.106065"], ["updated_at", "2015-04-20 16:40:54.106065"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Corporate Marketing Executive"], ["winner", "t"], ["data_content", "http://marquardtmckenzie.com/waylon"], ["user_id", 2], ["created_at", "2015-04-20 16:40:54.108885"], ["updated_at", "2015-04-20 16:40:54.108885"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "District Applications Liason"], ["winner", "f"], ["data_content", "http://purdy.biz/christophe"], ["user_id", 3], ["created_at", "2015-04-20 16:40:54.111621"], ["updated_at", "2015-04-20 16:40:54.111621"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Senior Web Representative"], ["winner", "f"], ["data_content", "http://ullrich.com/jacey"], ["user_id", 4], ["created_at", "2015-04-20 16:40:54.114413"], ["updated_at", "2015-04-20 16:40:54.114413"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "International Interactions Producer"], ["winner", "t"], ["data_content", "http://kiehn.org/alexys_olson"], ["user_id", 5], ["created_at", "2015-04-20 16:40:54.117094"], ["updated_at", "2015-04-20 16:40:54.117094"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Future Group Consultant"], ["winner", "t"], ["data_content", "http://hahnbaumbach.net/forrest"], ["user_id", 6], ["created_at", "2015-04-20 16:40:54.120285"], ["updated_at", "2015-04-20 16:40:54.120285"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Direct Program Facilitator"], ["winner", "f"], ["data_content", "http://ondricka.name/maeve.rodriguez"], ["user_id", 7], ["created_at", "2015-04-20 16:40:54.123418"], ["updated_at", "2015-04-20 16:40:54.123418"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Direct Communications Representative"], ["winner", "f"], ["data_content", "http://hermann.biz/aleandro_klein"], ["user_id", 8], ["created_at", "2015-04-20 16:40:54.126377"], ["updated_at", "2015-04-20 16:40:54.126377"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Product Directives Specialist"], ["winner", "t"], ["data_content", "http://hermannmarquardt.com/brandt.altenwerth"], ["user_id", 9], ["created_at", "2015-04-20 16:40:54.129201"], ["updated_at", "2015-04-20 16:40:54.129201"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Dynamic Directives Manager"], ["winner", "f"], ["data_content", "http://gusikowski.com/christopher_pfannerstill"], ["user_id", 10], ["created_at", "2015-04-20 16:40:54.132641"], ["updated_at", "2015-04-20 16:40:54.132641"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Internal Branding Liason"], ["winner", "t"], ["data_content", "http://wunschbashirian.info/natasha.altenwerth"], ["user_id", 11], ["created_at", "2015-04-20 16:40:54.135731"], ["updated_at", "2015-04-20 16:40:54.135731"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "International Tactics Associate"], ["winner", "t"], ["data_content", "http://mcdermott.com/marion"], ["user_id", 12], ["created_at", "2015-04-20 16:40:54.138660"], ["updated_at", "2015-04-20 16:40:54.138660"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Human Applications Producer"], ["winner", "t"], ["data_content", "http://daniel.com/stephen_friesen"], ["user_id", 13], ["created_at", "2015-04-20 16:40:54.141675"], ["updated_at", "2015-04-20 16:40:54.141675"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Human Optimization Assistant"], ["winner", "t"], ["data_content", "http://oconnell.org/abe.kling"], ["user_id", 14], ["created_at", "2015-04-20 16:40:54.144573"], ["updated_at", "2015-04-20 16:40:54.144573"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Future Solutions Executive"], ["winner", "t"], ["data_content", "http://blockdonnelly.org/justyn"], ["user_id", 15], ["created_at", "2015-04-20 16:40:54.147436"], ["updated_at", "2015-04-20 16:40:54.147436"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Direct Paradigm Facilitator"], ["winner", "f"], ["data_content", "http://cremin.net/reymundo_cronin"], ["user_id", 16], ["created_at", "2015-04-20 16:40:54.150372"], ["updated_at", "2015-04-20 16:40:54.150372"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Future Data Analyst"], ["winner", "t"], ["data_content", "http://emmerichrice.org/elyse"], ["user_id", 17], ["created_at", "2015-04-20 16:40:54.153346"], ["updated_at", "2015-04-20 16:40:54.153346"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Corporate Functionality Facilitator"], ["winner", "t"], ["data_content", "http://schmelerdurgan.info/durward"], ["user_id", 18], ["created_at", "2015-04-20 16:40:54.156297"], ["updated_at", "2015-04-20 16:40:54.156297"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Regional Optimization Consultant"], ["winner", "f"], ["data_content", "http://purdy.com/lincoln"], ["user_id", 19], ["created_at", "2015-04-20 16:40:54.159275"], ["updated_at", "2015-04-20 16:40:54.159275"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Senior Research Engineer"], ["winner", "f"], ["data_content", "http://lefflerreilly.net/valerie"], ["user_id", 20], ["created_at", "2015-04-20 16:40:54.162230"], ["updated_at", "2015-04-20 16:40:54.162230"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "International Solutions Executive"], ["winner", "t"], ["data_content", "http://boehm.net/howell.moriette"], ["user_id", 1], ["created_at", "2015-04-20 16:40:54.166181"], ["updated_at", "2015-04-20 16:40:54.166181"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Legacy Marketing Designer"], ["winner", "t"], ["data_content", "http://satterfield.name/zelda"], ["user_id", 2], ["created_at", "2015-04-20 16:40:54.169045"], ["updated_at", "2015-04-20 16:40:54.169045"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "International Tactics Assistant"], ["winner", "t"], ["data_content", "http://herzogcollier.biz/sheldon"], ["user_id", 3], ["created_at", "2015-04-20 16:40:54.172047"], ["updated_at", "2015-04-20 16:40:54.172047"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "District Response Specialist"], ["winner", "t"], ["data_content", "http://casper.org/jaquan_watsica"], ["user_id", 4], ["created_at", "2015-04-20 16:40:54.174819"], ["updated_at", "2015-04-20 16:40:54.174819"]]
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Senior Operations Engineer"], ["winner", "t"], ["data_content", "http://lockman.info/adriana"], ["user_id", 5], ["created_at", "2015-04-20 16:40:54.178353"], ["updated_at", "2015-04-20 16:40:54.178353"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Dynamic Quality Representative"], ["winner", "f"], ["data_content", "http://moriette.biz/carlee_franecki"], ["user_id", 6], ["created_at", "2015-04-20 16:40:54.181112"], ["updated_at", "2015-04-20 16:40:54.181112"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Regional Optimization Technician"], ["winner", "f"], ["data_content", "http://yost.name/sandy"], ["user_id", 7], ["created_at", "2015-04-20 16:40:54.183963"], ["updated_at", "2015-04-20 16:40:54.183963"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Corporate Configuration Producer"], ["winner", "t"], ["data_content", "http://greenfeldertreutel.net/murray"], ["user_id", 8], ["created_at", "2015-04-20 16:40:54.187450"], ["updated_at", "2015-04-20 16:40:54.187450"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "District Infrastructure Coordinator"], ["winner", "t"], ["data_content", "http://murazik.com/buster_volkman"], ["user_id", 9], ["created_at", "2015-04-20 16:40:54.190539"], ["updated_at", "2015-04-20 16:40:54.190539"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Investor Solutions Liason"], ["winner", "f"], ["data_content", "http://marquardt.info/maribel"], ["user_id", 10], ["created_at", "2015-04-20 16:40:54.193564"], ["updated_at", "2015-04-20 16:40:54.193564"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Dynamic Optimization Engineer"], ["winner", "f"], ["data_content", "http://strosin.org/heather"], ["user_id", 11], ["created_at", "2015-04-20 16:40:54.196608"], ["updated_at", "2015-04-20 16:40:54.196608"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "National Assurance Liason"], ["winner", "f"], ["data_content", "http://strosin.org/collin"], ["user_id", 12], ["created_at", "2015-04-20 16:40:54.199653"], ["updated_at", "2015-04-20 16:40:54.199653"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "District Integration Assistant"], ["winner", "t"], ["data_content", "http://jacobsbauch.info/georgianna.fadel"], ["user_id", 13], ["created_at", "2015-04-20 16:40:54.202402"], ["updated_at", "2015-04-20 16:40:54.202402"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Legacy Integration Engineer"], ["winner", "f"], ["data_content", "http://krajcik.name/lauretta"], ["user_id", 14], ["created_at", "2015-04-20 16:40:54.205106"], ["updated_at", "2015-04-20 16:40:54.205106"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Lead Implementation Analyst"], ["winner", "t"], ["data_content", "http://deckow.org/virginie"], ["user_id", 15], ["created_at", "2015-04-20 16:40:54.208167"], ["updated_at", "2015-04-20 16:40:54.208167"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Regional Program Engineer"], ["winner", "f"], ["data_content", "http://boyle.name/tyra.ernser"], ["user_id", 16], ["created_at", "2015-04-20 16:40:54.210836"], ["updated_at", "2015-04-20 16:40:54.210836"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Global Functionality Executive"], ["winner", "f"], ["data_content", "http://johnston.biz/lauretta"], ["user_id", 17], ["created_at", "2015-04-20 16:40:54.213516"], ["updated_at", "2015-04-20 16:40:54.213516"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Investor Integration Architect"], ["winner", "f"], ["data_content", "http://gulgowski.org/jarret.mosciski"], ["user_id", 18], ["created_at", "2015-04-20 16:40:54.216254"], ["updated_at", "2015-04-20 16:40:54.216254"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "International Quality Architect"], ["winner", "t"], ["data_content", "http://fritsch.com/ulises"], ["user_id", 19], ["created_at", "2015-04-20 16:40:54.219152"], ["updated_at", "2015-04-20 16:40:54.219152"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "videos" ("title", "winner", "data_content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Senior Directives Agent"], ["winner", "f"], ["data_content", "http://stoltenberg.net/orlo"], ["user_id", 20], ["created_at", "2015-04-20 16:40:54.221948"], ["updated_at", "2015-04-20 16:40:54.221948"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 10], ["video_id", 100], ["created_at", "2015-04-20 16:40:54.276555"], ["updated_at", "2015-04-20 16:40:54.276555"]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 11], ["video_id", 40], ["created_at", "2015-04-20 16:40:54.281926"], ["updated_at", "2015-04-20 16:40:54.281926"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 4], ["video_id", 67], ["created_at", "2015-04-20 16:40:54.286429"], ["updated_at", "2015-04-20 16:40:54.286429"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 6], ["video_id", 98], ["created_at", "2015-04-20 16:40:54.291099"], ["updated_at", "2015-04-20 16:40:54.291099"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 1], ["video_id", 36], ["created_at", "2015-04-20 16:40:54.295496"], ["updated_at", "2015-04-20 16:40:54.295496"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 3], ["video_id", 13], ["created_at", "2015-04-20 16:40:54.300216"], ["updated_at", "2015-04-20 16:40:54.300216"]]
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.5ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 13], ["video_id", 85], ["created_at", "2015-04-20 16:40:54.305441"], ["updated_at", "2015-04-20 16:40:54.305441"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 19], ["video_id", 82], ["created_at", "2015-04-20 16:40:54.310201"], ["updated_at", "2015-04-20 16:40:54.310201"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 11], ["video_id", 90], ["created_at", "2015-04-20 16:40:54.314446"], ["updated_at", "2015-04-20 16:40:54.314446"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 13], ["video_id", 99], ["created_at", "2015-04-20 16:40:54.318521"], ["updated_at", "2015-04-20 16:40:54.318521"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 5], ["video_id", 19], ["created_at", "2015-04-20 16:40:54.322687"], ["updated_at", "2015-04-20 16:40:54.322687"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 12], ["video_id", 77], ["created_at", "2015-04-20 16:40:54.326734"], ["updated_at", "2015-04-20 16:40:54.326734"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 4], ["video_id", 98], ["created_at", "2015-04-20 16:40:54.330888"], ["updated_at", "2015-04-20 16:40:54.330888"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 5], ["video_id", 15], ["created_at", "2015-04-20 16:40:54.335375"], ["updated_at", "2015-04-20 16:40:54.335375"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 8], ["video_id", 29], ["created_at", "2015-04-20 16:40:54.339802"], ["updated_at", "2015-04-20 16:40:54.339802"]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.5ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 10], ["video_id", 57], ["created_at", "2015-04-20 16:40:54.345659"], ["updated_at", "2015-04-20 16:40:54.345659"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 7], ["video_id", 75], ["created_at", "2015-04-20 16:40:54.350079"], ["updated_at", "2015-04-20 16:40:54.350079"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 5], ["video_id", 39], ["created_at", "2015-04-20 16:40:54.354435"], ["updated_at", "2015-04-20 16:40:54.354435"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 9], ["video_id", 90], ["created_at", "2015-04-20 16:40:54.359125"], ["updated_at", "2015-04-20 16:40:54.359125"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 2], ["video_id", 73], ["created_at", "2015-04-20 16:40:54.363498"], ["updated_at", "2015-04-20 16:40:54.363498"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.5ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 8], ["video_id", 6], ["created_at", "2015-04-20 16:40:54.368807"], ["updated_at", "2015-04-20 16:40:54.368807"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 18], ["video_id", 80], ["created_at", "2015-04-20 16:40:54.373320"], ["updated_at", "2015-04-20 16:40:54.373320"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 11], ["video_id", 39], ["created_at", "2015-04-20 16:40:54.377682"], ["updated_at", "2015-04-20 16:40:54.377682"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 10], ["video_id", 41], ["created_at", "2015-04-20 16:40:54.382126"], ["updated_at", "2015-04-20 16:40:54.382126"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 11], ["video_id", 72], ["created_at", "2015-04-20 16:40:54.386414"], ["updated_at", "2015-04-20 16:40:54.386414"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 1], ["video_id", 70], ["created_at", "2015-04-20 16:40:54.390328"], ["updated_at", "2015-04-20 16:40:54.390328"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 19], ["video_id", 55], ["created_at", "2015-04-20 16:40:54.394578"], ["updated_at", "2015-04-20 16:40:54.394578"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 16], ["video_id", 87], ["created_at", "2015-04-20 16:40:54.399229"], ["updated_at", "2015-04-20 16:40:54.399229"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 12], ["video_id", 90], ["created_at", "2015-04-20 16:40:54.403423"], ["updated_at", "2015-04-20 16:40:54.403423"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 17], ["video_id", 41], ["created_at", "2015-04-20 16:40:54.407625"], ["updated_at", "2015-04-20 16:40:54.407625"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 9], ["video_id", 19], ["created_at", "2015-04-20 16:40:54.411650"], ["updated_at", "2015-04-20 16:40:54.411650"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 17], ["video_id", 36], ["created_at", "2015-04-20 16:40:54.415486"], ["updated_at", "2015-04-20 16:40:54.415486"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 15], ["video_id", 93], ["created_at", "2015-04-20 16:40:54.419585"], ["updated_at", "2015-04-20 16:40:54.419585"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 5], ["video_id", 97], ["created_at", "2015-04-20 16:40:54.423670"], ["updated_at", "2015-04-20 16:40:54.423670"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 1], ["video_id", 11], ["created_at", "2015-04-20 16:40:54.427937"], ["updated_at", "2015-04-20 16:40:54.427937"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 2], ["video_id", 46], ["created_at", "2015-04-20 16:40:54.432193"], ["updated_at", "2015-04-20 16:40:54.432193"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 4], ["video_id", 15], ["created_at", "2015-04-20 16:40:54.436504"], ["updated_at", "2015-04-20 16:40:54.436504"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.6ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 10], ["video_id", 84], ["created_at", "2015-04-20 16:40:54.441443"], ["updated_at", "2015-04-20 16:40:54.441443"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 20], ["video_id", 34], ["created_at", "2015-04-20 16:40:54.446004"], ["updated_at", "2015-04-20 16:40:54.446004"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 10], ["video_id", 47], ["created_at", "2015-04-20 16:40:54.495822"], ["updated_at", "2015-04-20 16:40:54.495822"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 3], ["video_id", 26], ["created_at", "2015-04-20 16:40:54.500905"], ["updated_at", "2015-04-20 16:40:54.500905"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 3], ["video_id", 40], ["created_at", "2015-04-20 16:40:54.505441"], ["updated_at", "2015-04-20 16:40:54.505441"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 20], ["video_id", 86], ["created_at", "2015-04-20 16:40:54.510254"], ["updated_at", "2015-04-20 16:40:54.510254"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 5], ["video_id", 76], ["created_at", "2015-04-20 16:40:54.514518"], ["updated_at", "2015-04-20 16:40:54.514518"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 3], ["video_id", 59], ["created_at", "2015-04-20 16:40:54.518832"], ["updated_at", "2015-04-20 16:40:54.518832"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 3], ["video_id", 66], ["created_at", "2015-04-20 16:40:54.522992"], ["updated_at", "2015-04-20 16:40:54.522992"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 17], ["video_id", 33], ["created_at", "2015-04-20 16:40:54.526877"], ["updated_at", "2015-04-20 16:40:54.526877"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 17], ["video_id", 29], ["created_at", "2015-04-20 16:40:54.530990"], ["updated_at", "2015-04-20 16:40:54.530990"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["voter_id", 14], ["video_id", 78], ["created_at", "2015-04-20 16:40:54.534970"], ["updated_at", "2015-04-20 16:40:54.534970"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "votes" ("voter_id", "video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["voter_id", 5], ["video_id", 83], ["created_at", "2015-04-20 16:40:54.538868"], ["updated_at", "2015-04-20 16:40:54.538868"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "private_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["challenger_video_id", 38], ["challengee_video_id", 82], ["created_at", "2015-04-20 16:40:54.552116"], ["updated_at", "2015-04-20 16:40:54.552116"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "private_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["challenger_video_id", 73], ["challengee_video_id", 25], ["created_at", "2015-04-20 16:40:54.557584"], ["updated_at", "2015-04-20 16:40:54.557584"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "private_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["challenger_video_id", 64], ["challengee_video_id", 73], ["created_at", "2015-04-20 16:40:54.562533"], ["updated_at", "2015-04-20 16:40:54.562533"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "private_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["challenger_video_id", 7], ["challengee_video_id", 7], ["created_at", "2015-04-20 16:40:54.567625"], ["updated_at", "2015-04-20 16:40:54.567625"]]
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "private_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["challenger_video_id", 20], ["challengee_video_id", 94], ["created_at", "2015-04-20 16:40:54.573219"], ["updated_at", "2015-04-20 16:40:54.573219"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "public_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["challenger_video_id", 72], ["challengee_video_id", 10], ["created_at", "2015-04-20 16:40:54.586675"], ["updated_at", "2015-04-20 16:40:54.586675"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36mVideo Load (0.4ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "public_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["challenger_video_id", 68], ["challengee_video_id", 77], ["created_at", "2015-04-20 16:40:54.592885"], ["updated_at", "2015-04-20 16:40:54.592885"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mVideo Load (0.4ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "public_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["challenger_video_id", 72], ["challengee_video_id", 28], ["created_at", "2015-04-20 16:40:54.598296"], ["updated_at", "2015-04-20 16:40:54.598296"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  [1m[36mVideo Load (0.5ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "public_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["challenger_video_id", 6], ["challengee_video_id", 73], ["created_at", "2015-04-20 16:40:54.603949"], ["updated_at", "2015-04-20 16:40:54.603949"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mVideo Load (0.3ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36mVideo Load (0.3ms)[0m  [1mSELECT "videos".* FROM "videos"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "public_arenas" ("challenger_video_id", "challengee_video_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["challenger_video_id", 99], ["challengee_video_id", 69], ["created_at", "2015-04-20 16:40:54.608779"], ["updated_at", "2015-04-20 16:40:54.608779"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mPrivateArena Load (0.1ms)[0m  SELECT "private_arenas".* FROM "private_arenas"
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "arena_attendances" ("attendee_id", "private_arena_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["attendee_id", 5], ["private_arena_id", 3], ["created_at", "2015-04-20 16:40:54.618730"], ["updated_at", "2015-04-20 16:40:54.618730"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mPrivateArena Load (0.1ms)[0m  [1mSELECT "private_arenas".* FROM "private_arenas"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "arena_attendances" ("attendee_id", "private_arena_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["attendee_id", 2], ["private_arena_id", 3], ["created_at", "2015-04-20 16:40:54.622479"], ["updated_at", "2015-04-20 16:40:54.622479"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mPrivateArena Load (0.1ms)[0m  SELECT "private_arenas".* FROM "private_arenas"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "arena_attendances" ("attendee_id", "private_arena_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["attendee_id", 17], ["private_arena_id", 2], ["created_at", "2015-04-20 16:40:54.625477"], ["updated_at", "2015-04-20 16:40:54.625477"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users"
+  [1m[36mPrivateArena Load (0.1ms)[0m  [1mSELECT "private_arenas".* FROM "private_arenas"[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "arena_attendances" ("attendee_id", "private_arena_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["attendee_id", 12], ["private_arena_id", 4], ["created_at", "2015-04-20 16:40:54.628175"], ["updated_at", "2015-04-20 16:40:54.628175"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mPrivateArena Load (0.1ms)[0m  SELECT "private_arenas".* FROM "private_arenas"
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "arena_attendances" ("attendee_id", "private_arena_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["attendee_id", 8], ["private_arena_id", 4], ["created_at", "2015-04-20 16:40:54.630876"], ["updated_at", "2015-04-20 16:40:54.630876"]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+
+
+Started GET "/" for ::1 at 2015-04-20 11:41:14 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by WelcomeController#index as HTML
+  [1m[35mVideo Load (0.5ms)[0m  SELECT "videos".* FROM "videos"
+  [1m[36mPublicArena Load (0.2ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 1]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 2]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 3]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 4]]
+  [1m[36mPublicArena Load (0.0ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 5]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 6]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 7]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 8]]
+  [1m[36mPublicArena Load (0.0ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 9]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 10]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 11]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 12]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 13]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 14]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 15]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 16]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 17]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 18]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 19]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 20]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 21]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 22]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 23]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 24]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 25]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 26]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 27]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 28]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 29]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 30]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 31]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 32]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 33]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 34]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 35]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 36]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 37]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 38]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 39]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 40]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 41]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 42]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 43]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 44]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 45]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 46]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 47]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 48]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 49]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 50]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 51]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 52]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 53]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 54]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 55]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 56]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 57]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 58]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 59]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 60]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 61]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 62]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 63]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 64]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 65]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 66]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 67]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 68]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 69]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 70]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 71]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 72]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 73]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 74]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 75]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 76]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 77]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 78]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 79]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 80]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 81]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 82]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 83]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 84]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 85]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 86]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 87]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 88]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 89]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 90]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 91]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 92]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 93]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 94]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 95]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 96]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 97]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 98]]
+  [1m[36mPublicArena Load (0.1ms)[0m  [1mSELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1[0m  [["challenger_video_id", 99]]
+  [1m[35mPublicArena Load (0.1ms)[0m  SELECT  "public_arenas".* FROM "public_arenas" WHERE "public_arenas"."challenger_video_id" = ? LIMIT 1  [["challenger_video_id", 100]]
+Completed 200 OK in 87ms (Views: 1.9ms | ActiveRecord: 7.9ms)
