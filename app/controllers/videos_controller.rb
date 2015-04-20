@@ -5,8 +5,13 @@ class VideosController < ApplicationController
   end
 
   def create
-    @video = Video.create(video_params)
-    render :json => @video
+    if current_user
+      @challenger_video = current_user.videos.new(video_params)
+      if @video.save
+        @public_arena(challenger_video)
+      else
+
+      end
   end
 
   def edit

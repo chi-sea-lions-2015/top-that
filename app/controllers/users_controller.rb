@@ -1,8 +1,11 @@
 class UsersController < ApplicationController
 
   def index
-    @user = User.all
-    render :json => @user
+    @users = User.all
+  end
+
+  def show
+    @user = User.find(params[:id])
   end
 
   def new
@@ -13,9 +16,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       log_in @user
-      render :json => @user
+      redirect_to @user
     else
-      @error = "wooopsies" #Find out if view needs to be rendered client side
+      render "new"
     end
   end
 
@@ -27,16 +30,16 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.update_attributes(user_params)
     if @user.save
-      render :json => @user
+      redirect_to @user
     else
-    @error = "you just got topped by this app" #Find out if view needs to be rendered client side
+      render "edit"
     end
   end
 
-  def destroy
-    @user = User.find(params[:id])
-    @user.destroy!
-  end
+  # def destroy
+  #   @user = User.find(params[:id])
+  #   @user.destroy!
+  # end
 
   private
 
