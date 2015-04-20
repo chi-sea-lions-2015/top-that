@@ -5,12 +5,14 @@ class PublicArenasController < ApplicationController
     @challenger_video = @public_arena.challenger_video
     @challengee_video = @public_arena.challengee_video
     @votes_for_challenger = @challenger_video.votes
-    @votes_for_challengee = @challengee_video.votes
+    if @challengee_video
+        @votes_for_challengee = @challengee_video.votes
+    end
   end
 
-  def create
-    @public_arena = PublicArena.create(public_arena_params)
-  end
+  # def create
+  #   @public_arena = PublicArena.create(public_arena_params)
+  # end
 
 
   def update
