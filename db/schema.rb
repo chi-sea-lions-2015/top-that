@@ -13,15 +13,15 @@
 
 ActiveRecord::Schema.define(version: 20150417040005) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "arena_attendances", force: :cascade do |t|
     t.integer  "private_arena_id"
     t.integer  "attendee_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
-
-  add_index "arena_attendances", ["attendee_id"], name: "index_arena_attendances_on_attendee_id"
-  add_index "arena_attendances", ["private_arena_id"], name: "index_arena_attendances_on_private_arena_id"
 
   create_table "private_arenas", force: :cascade do |t|
     t.integer  "challenger_video_id"
@@ -31,9 +31,6 @@ ActiveRecord::Schema.define(version: 20150417040005) do
     t.datetime "updated_at",                      null: false
   end
 
-  add_index "private_arenas", ["challengee_video_id"], name: "index_private_arenas_on_challengee_video_id"
-  add_index "private_arenas", ["challenger_video_id"], name: "index_private_arenas_on_challenger_video_id"
-
   create_table "public_arenas", force: :cascade do |t|
     t.integer  "challenger_video_id"
     t.integer  "challengee_video_id"
@@ -42,18 +39,12 @@ ActiveRecord::Schema.define(version: 20150417040005) do
     t.datetime "updated_at",                      null: false
   end
 
-  add_index "public_arenas", ["challengee_video_id"], name: "index_public_arenas_on_challengee_video_id"
-  add_index "public_arenas", ["challenger_video_id"], name: "index_public_arenas_on_challenger_video_id"
-
   create_table "user_connections", force: :cascade do |t|
     t.integer  "inviter_id"
     t.integer  "invitee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "user_connections", ["invitee_id"], name: "index_user_connections_on_invitee_id"
-  add_index "user_connections", ["inviter_id"], name: "index_user_connections_on_inviter_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
@@ -73,7 +64,7 @@ ActiveRecord::Schema.define(version: 20150417040005) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "videos", ["user_id"], name: "index_videos_on_user_id"
+  add_index "videos", ["user_id"], name: "index_videos_on_user_id", using: :btree
 
   create_table "votes", force: :cascade do |t|
     t.integer  "voter_id"
@@ -82,7 +73,5 @@ ActiveRecord::Schema.define(version: 20150417040005) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "votes", ["video_id"], name: "index_votes_on_video_id"
-  add_index "votes", ["voter_id"], name: "index_votes_on_voter_id"
-
+  add_foreign_key "videos", "users"
 end
