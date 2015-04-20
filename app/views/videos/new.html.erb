@@ -1,1 +1,9 @@
-<%= link_to 'challenge the world', new_user_video_path([@user, @video]) %>
+
+<%=form_for ([@user, @video]) do |f|%>
+    <%= f.label :title, "Add Title" %><br>
+    <%= f.text_field :title%><br>
+     <%= f.label :data_content, "Add Video" %><br>
+    <%= f.text_field :data_content%><br>
+    <%= f.submit "Submit"%>
+<% end %>
+
