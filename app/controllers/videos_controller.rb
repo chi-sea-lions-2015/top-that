@@ -1,15 +1,18 @@
 class VideosController < ApplicationController
 
   def new
+    puts params
+    @user = current_user
     @video = Video.new
   end
 
   def create
     if current_user
+      puts params
       @challenger_video = current_user.videos.new(video_params)
-      if @video.save
-        @public_arena = PublicArena.create(challenger_video: @video)
-        redirect_to @public_arena
+      if @challenger_video.save
+        @public_arena = PublicArena.create(challenger_video: @challenger_video)
+        redirect_to video_public_arena_path(@challenger_video, @public_arena)
       else
         render "new"
       end
@@ -43,7 +46,7 @@ class VideosController < ApplicationController
   private
 
     def video_params
-      params.require(:user).permit(:title, :winner?, :data_content)
+      params.require(:video).permit(:title, :data_content)
     end
 
 
