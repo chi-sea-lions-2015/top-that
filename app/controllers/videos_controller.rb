@@ -8,10 +8,11 @@ class VideosController < ApplicationController
     if current_user
       @challenger_video = current_user.videos.new(video_params)
       if @video.save
-        @public_arena(challenger_video)
+        @public_arena = PublicArena.create(challenger_video: @video)
       else
 
       end
+    end
   end
 
   def edit
