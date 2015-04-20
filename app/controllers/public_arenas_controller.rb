@@ -6,7 +6,6 @@ class PublicArenasController < ApplicationController
     @challengee_video = @public_arena.challengee_video
     @votes_for_challenger = @challenger_video.votes
     @votes_for_challengee = @challengee_video.votes
-    render :json => @public_arena
   end
 
   def create
