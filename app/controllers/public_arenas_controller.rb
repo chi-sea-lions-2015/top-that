@@ -5,7 +5,6 @@ class PublicArenasController < ApplicationController
     @public_arena = PublicArena.find(params[:id])
     @challenger_video = @public_arena.challenger_video
     @challengee_video = @public_arena.challengee_video
-    @new_challengee_video = Video.new
     @vote = Vote.new
     @votes_for_challenger = @challenger_video.votes
     if @challengee_video
@@ -25,8 +24,6 @@ class PublicArenasController < ApplicationController
 
 
   def update
-    puts "HI"
-    puts params
     @challengee_video = Video.create(user: current_user, title: params[:public_arena][:challengee_video], data_content: params[:public_arena][:challengee_video_id])
     @public_arena = PublicArena.find(params[:id])
     @public_arena.update_attributes(challengee_video: @challengee_video, status: "in_battle")
