@@ -10,12 +10,12 @@ Rails.application.routes.draw do
 
     resources :users do
       resources :videos, only: [:create, :new, :edit, :update, :destroy]
-      end
+    end
 
 
     resources :videos do
-      resources :public_arenas, only: [:new, :create, :show, :update]
-      resources :private_arenas, only: [:new, :create, :show, :update]
+      resources :votes
+      resources :public_arenas, only: [:new, :edit, :create, :show, :update]
   end
 
 

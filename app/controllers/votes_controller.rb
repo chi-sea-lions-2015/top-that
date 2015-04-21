@@ -1,13 +1,15 @@
 class VotesController < ApplicationController
   def create
-    @public_arena = PublicArena.find(params[:id])
-    @challenger_video = @public_arena.challenger_video
-    @challengee_video = @public_arena.challengee_video
-    if params[:challenger_video_id]
-      @vote = @challenger_video.votes.create(voter_id: current_user.id, video_id: params[:challenger_video_id])
+    @video = Video.find(params[:video_id])
+
+    if @video.public_arena_as_challenger
+      @vote = @video.votes.create(voter: current_user, video_id: params[:video_id])
+      @public_arena = @video.public_arena_as_challenger
     else
-      @vote = @challengee_video.votes.create(voter_id: current_user.id, video_id: params[:challengee_video_id])
+      @vote = @video.votes.create(voter: current_user, video_id: params[:video_id])
+      @public_arena = @video.public_arena_as_challengee
     end
-    redirect @public_arena
+    @challenger_video = @public_arena.challenger_video
+    redirect_to video_public_arena_path(@challenger_video, @public_arena)
   end
 end
